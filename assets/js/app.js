@@ -8,6 +8,7 @@ const FAIR_PROFILES = {
   plate: { eventName: 'PLATE', eventDate: '2026-07-12', location: 'Predio Plate', stallCount: 40, stallPrice: 0 },
 };
 
+let currentFair = FAIR_PROFILES[localStorage.getItem(CURRENT_FAIR_KEY)] ? localStorage.getItem(CURRENT_FAIR_KEY) : 'euca';
 let currentFair = localStorage.getItem(CURRENT_FAIR_KEY) || 'euca';
 let state = loadState();
 let selectedStall = null;
@@ -24,6 +25,9 @@ function today() {
 }
 
 function createDefaults(fair = currentFair) {
+  const profile = FAIR_PROFILES[fair] || FAIR_PROFILES.euca;
+  return {
+    settings: { ...profile },
   return {
     settings: { ...FAIR_PROFILES[fair] },
     movements: [],
@@ -301,6 +305,14 @@ function toast(message) {
   setTimeout(() => node.remove(), 2400);
 }
 
+function removeStallAndMovement(stallNumber) {
+  const movementId = state.stalls[stallNumber]?.movementId;
+  if (movementId) {
+    state.movements = state.movements.filter((mov) => mov.id !== movementId);
+  }
+  delete state.stalls[stallNumber];
+}
+
 function upsertStallPaymentMovement(stallNumber, stall) {
   if (stall.paymentStatus !== 'pagado' || !stall.participantId || !stall.paymentAmount) {
     if (stall.movementId) {
@@ -414,6 +426,7 @@ function bind() {
       const id = button.dataset.deleteParticipant;
       state.participants = state.participants.filter((participant) => participant.id !== id);
       Object.keys(state.stalls).forEach((number) => {
+        if (state.stalls[number].participantId === id) removeStallAndMovement(number);
         if (state.stalls[number].participantId === id) delete state.stalls[number];
       });
       save();
@@ -429,6 +442,10 @@ function bind() {
     if (!selectedStall) return toast('Selecciona un puesto');
     const participantId = $('#stall-participant').value;
     if (!participantId) {
+      removeStallAndMovement(selectedStall);
+    } else {
+      Object.keys(state.stalls).forEach((number) => {
+        if (state.stalls[number].participantId === participantId && Number(number) !== selectedStall) removeStallAndMovement(number);
       delete state.stalls[selectedStall];
     } else {
       Object.keys(state.stalls).forEach((number) => {
@@ -452,6 +469,7 @@ function bind() {
 
   $('#release-stall').onclick = () => {
     if (!selectedStall) return;
+    removeStallAndMovement(selectedStall);
     const movementId = state.stalls[selectedStall]?.movementId;
     if (movementId) state.movements = state.movements.filter((mov) => mov.id !== movementId);
     delete state.stalls[selectedStall];
@@ -469,6 +487,7 @@ function bind() {
       stallPrice: Number($('#setting-stall-price').value) || 0,
     };
     Object.keys(state.stalls).forEach((number) => {
+      if (Number(number) > state.settings.stallCount) removeStallAndMovement(number);
       if (Number(number) > state.settings.stallCount) delete state.stalls[number];
     });
     save();
@@ -557,7 +576,6 @@ document.addEventListener('DOMContentLoaded', () => {
   bind();
   setView();
 });
-=======
 const KEY='eucaPanelData';
 const DEFAULTS={settings:{eventName:'EUCA',eventDate:'2026-07-11',location:'Bosques de Eucalipto',stallCount:40},movements:[],participants:[],stalls:{}};
 let state=loadState();let selectedStall=null;
