@@ -4,102 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel EUCA</title>
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <meta http-equiv="refresh" content="0; url=index.html">
+  <link rel="canonical" href="index.html">
 </head>
 <body>
-  <div class="app-shell">
-    <aside class="sidebar" aria-label="Navegación principal">
-      <a class="brand" href="#dashboard" aria-label="Ir al dashboard">
-        <span class="brand__mark">E</span>
-        <span><strong>Panel EUCA</strong><small>Gestión de feria</small></span>
-      </a>
-      <nav class="nav" id="main-nav">
-        <a href="#dashboard" data-view="dashboard">📊 Dashboard</a>
-        <a href="#contabilidad" data-view="contabilidad">💰 Contabilidad</a>
-        <a href="#participantes" data-view="participantes">👥 Participantes</a>
-        <a href="#puestos" data-view="puestos">⛺ Puestos</a>
-        <a href="#configuracion" data-view="configuracion">⚙️ Configuración</a>
-      </nav>
-      <div class="sidebar__footer">
-        <small>Datos guardados en este navegador con localStorage.</small>
-      </div>
-    </aside>
-
-    <main class="main">
-      <header class="topbar">
-        <button class="menu-toggle" id="menu-toggle" aria-label="Mostrar menú">☰</button>
-        <div>
-          <p class="eyebrow">Panel administrativo</p>
-          <h1 id="page-title">Dashboard</h1>
-        </div>
-        <div class="status-pill" id="save-status">● Guardado local</div>
-      </header>
-
-      <section id="view-dashboard" class="view active" aria-labelledby="page-title">
-        <div class="hero card">
-          <div>
-            <p class="eyebrow">Próxima feria</p>
-            <h2 id="hero-event-name">EUCA</h2>
-            <p id="hero-event-meta">Bosques de Eucalipto</p>
-          </div>
-          <div class="hero__date" id="hero-date">--</div>
-        </div>
-        <div class="stats-grid" id="dashboard-stats"></div>
-        <div class="grid two">
-          <article class="card">
-            <div class="section-heading"><h3>Últimos movimientos</h3><a href="#contabilidad">Ver todo</a></div>
-            <div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Detalle</th><th>Tipo</th><th>Monto</th></tr></thead><tbody id="dashboard-movements"></tbody></table></div>
-          </article>
-          <article class="card">
-            <div class="section-heading"><h3>Asignaciones recientes</h3><a href="#puestos">Ver mapa</a></div>
-            <div id="dashboard-assignments" class="activity-list"></div>
-          </article>
-        </div>
-      </section>
-
-      <section id="view-contabilidad" class="view">
-        <div class="stats-grid" id="accounting-stats"></div>
-        <article class="card">
-          <div class="section-heading"><h3 id="movement-form-title">Nuevo movimiento</h3><button class="btn btn-ghost" id="cancel-movement-edit" hidden>Cancelar edición</button></div>
-          <form id="movement-form" class="form-grid">
-            <input type="hidden" id="movement-id">
-            <label>Detalle<input id="movement-detail" type="text" required maxlength="80" placeholder="Pago de puesto, compra de insumos..."></label>
-            <label>Tipo<select id="movement-type"><option value="ingreso">Ingreso</option><option value="gasto">Gasto</option></select></label>
-            <label>Monto<input id="movement-amount" type="number" min="0.01" step="0.01" required placeholder="0.00"></label>
-            <label>Fecha<input id="movement-date" type="date" required></label>
-            <button class="btn" type="submit">Guardar movimiento</button>
-          </form>
-        </article>
-        <article class="card"><div class="section-heading"><h3>Historial de caja</h3><input class="search" id="movement-search" type="search" placeholder="Buscar movimiento..."></div><div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Detalle</th><th>Tipo</th><th>Monto</th><th>Acciones</th></tr></thead><tbody id="movement-table"></tbody></table></div></article>
-      </section>
-
-      <section id="view-participantes" class="view">
-        <article class="card">
-          <div class="section-heading"><h3 id="participant-form-title">Nuevo participante</h3><button class="btn btn-ghost" id="cancel-participant-edit" hidden>Cancelar edición</button></div>
-          <form id="participant-form" class="form-grid">
-            <input type="hidden" id="participant-id">
-            <label>Nombre<input id="participant-name" type="text" required maxlength="80"></label>
-            <label>Rubro<input id="participant-category" type="text" required maxlength="60"></label>
-            <label>Teléfono<input id="participant-phone" type="tel" maxlength="30"></label>
-            <label>Email<input id="participant-email" type="email" maxlength="80"></label>
-            <label>Estado<select id="participant-status"><option value="activo">Activo</option><option value="pendiente">Pendiente</option><option value="inactivo">Inactivo</option></select></label>
-            <label>Pago inicial<input id="participant-payment-amount" type="number" min="0" step="0.01" placeholder="Opcional"></label>
-            <label>Método de pago<select id="participant-payment-method"><option value="efectivo">Efectivo</option><option value="transferencia">Transferencia</option><option value="mercado-pago">Mercado Pago</option><option value="otro">Otro</option></select></label>
-            <button class="btn" type="submit">Guardar participante</button>
-          </form>
-        </article>
-        <article class="card"><div class="section-heading"><h3>Directorio de participantes</h3><input class="search" id="participant-search" type="search" placeholder="Buscar participante..."></div><div class="table-wrap"><table><thead><tr><th>Nombre</th><th>Rubro</th><th>Contacto</th><th>Estado</th><th>Puesto</th><th>Acciones</th></tr></thead><tbody id="participant-table"></tbody></table></div></article>
-      </section>
-
-      <section id="view-puestos" class="view">
-        <div class="grid two"><article class="card"><h3>Asignación de puestos</h3><p>Selecciona un puesto del mapa y asígnalo a un participante activo. Si marcas el puesto como pagado, Contabilidad se completa automáticamente.</p><div class="legend"><span><i class="free"></i>Libre</span><span><i class="busy"></i>Ocupado</span><span><i class="selected"></i>Seleccionado</span></div><div id="stall-map" class="stall-map"></div></article><article class="card"><h3 id="stall-panel-title">Selecciona un puesto</h3><form id="stall-form" class="stack"><label>Puesto<input id="stall-number" type="text" readonly></label><label>Participante<select id="stall-participant"></select></label><label>Estado de pago<select id="stall-payment-status"><option value="pendiente">Pendiente</option><option value="pagado">Pagado</option></select></label><label>Monto pagado<input id="stall-payment-amount" type="number" min="0" step="0.01"></label><label>Método de pago<select id="stall-payment-method"><option value="efectivo">Efectivo</option><option value="transferencia">Transferencia</option><option value="mercado-pago">Mercado Pago</option><option value="otro">Otro</option></select></label><label>Notas<textarea id="stall-notes" rows="4" placeholder="Observaciones del puesto"></textarea></label><button class="btn" type="submit">Guardar asignación</button><button class="btn btn-danger" type="button" id="release-stall">Liberar puesto</button></form></article></div>
-      </section>
-
-      <section id="view-configuracion" class="view">
-        <div class="grid two"><article class="card"><h3>Datos de la feria</h3><form id="settings-form" class="stack"><label>Nombre del evento<input id="setting-event-name" type="text" required></label><label>Fecha<input id="setting-event-date" type="date" required></label><label>Ubicación<input id="setting-location" type="text" required></label><label>Cantidad de puestos<input id="setting-stalls" type="number" min="1" max="200" required></label><label>Precio por puesto<input id="setting-stall-price" type="number" min="0" step="0.01" required></label><button class="btn" type="submit">Guardar configuración</button></form></article><article class="card"><h3>Respaldo JSON</h3><p>Exporta o importa todos los datos del Panel EUCA.</p><div class="actions"><button class="btn" id="export-backup">Exportar respaldo</button><label class="btn btn-ghost file-btn">Importar respaldo<input id="import-backup" type="file" accept="application/json,.json"></label><button class="btn btn-danger" id="reset-data">Reiniciar datos</button></div><pre id="backup-preview" class="backup-preview" aria-live="polite"></pre></article></div>
-      </section>
-    </main>
-  </div>
-  <script src="assets/js/app.js"></script>
+  <p>La página principal es <strong>index.html</strong>. Redirigiendo a <a href="index.html">index.html</a>...</p>
 </body>
 </html>

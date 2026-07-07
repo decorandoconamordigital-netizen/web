@@ -1,19 +1,13 @@
 'use strict';
 
-const KEY = 'eucaPanelData';
-const DEFAULTS = {
-  settings: {
-    eventName: 'EUCA',
-    eventDate: '2026-07-11',
-    location: 'Bosques de Eucalipto',
-    stallCount: 40,
-    stallPrice: 0,
-  },
-  movements: [],
-  participants: [],
-  stalls: {},
+const LEGACY_KEY = 'eucaPanelData';
+const CURRENT_FAIR_KEY = 'eucaCurrentFair';
+const FAIR_PROFILES = {
+  euca: { eventName: 'EUCA', eventDate: '2026-07-11', location: 'Bosques de Eucalipto', stallCount: 40, stallPrice: 0 },
+  plate: { eventName: 'PLATE', eventDate: '2026-07-12', location: 'Predio Plate', stallCount: 40, stallPrice: 0 },
 };
 
+let currentFair = localStorage.getItem(CURRENT_FAIR_KEY) || 'euca';
 let state = loadState();
 let selectedStall = null;
 
@@ -28,13 +22,27 @@ function today() {
   return new Date().toISOString().slice(0, 10);
 }
 
+function createDefaults(fair = currentFair) {
+  return {
+    settings: { ...FAIR_PROFILES[fair] },
+    movements: [],
+    participants: [],
+    stalls: {},
+  };
+}
+
+function storageKey(fair = currentFair) {
+  return `${LEGACY_KEY}_${fair}`;
+}
+
 function loadState() {
-  const legacy = readLegacy();
+  const defaults = createDefaults();
+  const legacy = currentFair === 'euca' ? readLegacy() : {};
   try {
-    const raw = localStorage.getItem(KEY);
-    return raw ? normalize(JSON.parse(raw)) : normalize({ ...DEFAULTS, ...legacy });
+    const raw = localStorage.getItem(storageKey()) || (currentFair === 'euca' ? localStorage.getItem(LEGACY_KEY) : null);
+    return raw ? normalize(JSON.parse(raw)) : normalize({ ...defaults, ...legacy });
   } catch {
-    return structuredClone(DEFAULTS);
+    return structuredClone(defaults);
   }
 }
 
@@ -85,7 +93,7 @@ function readLegacy() {
 }
 
 function normalize(data) {
-  const settings = { ...DEFAULTS.settings, ...(data.settings || {}) };
+  const settings = { ...createDefaults().settings, ...(data.settings || {}) };
   settings.stallPrice = Number(settings.stallPrice) || 0;
 
   return {
@@ -123,7 +131,7 @@ function normalizeStalls(stalls) {
 }
 
 function save() {
-  localStorage.setItem(KEY, JSON.stringify(state));
+  localStorage.setItem(storageKey(), JSON.stringify(state));
   $('#save-status').textContent = `● Guardado ${new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}`;
   renderAll();
 }
@@ -326,9 +334,21 @@ function addParticipantPaymentMovement(participant, amount, method) {
   });
 }
 
+function switchFair(fair) {
+  if (!FAIR_PROFILES[fair]) return;
+  currentFair = fair;
+  localStorage.setItem(CURRENT_FAIR_KEY, fair);
+  selectedStall = null;
+  state = loadState();
+  renderAll();
+  toast(`Administrando feria ${FAIR_PROFILES[fair].eventName}`);
+}
+
 function bind() {
   window.addEventListener('hashchange', setView);
   $('#menu-toggle').onclick = () => $('.sidebar').classList.toggle('open');
+  $('#fair-selector').value = currentFair;
+  $('#fair-selector').addEventListener('change', (event) => switchFair(event.target.value));
   $('#movement-date').value = today();
 
   $('#movement-form').onsubmit = (event) => {
@@ -458,7 +478,7 @@ function bind() {
   $('#import-backup').onchange = importBackup;
   $('#reset-data').onclick = () => {
     if (confirm('¿Borrar todos los datos locales?')) {
-      state = structuredClone(DEFAULTS);
+      state = createDefaults();
       save();
       toast('Datos reiniciados');
     }
