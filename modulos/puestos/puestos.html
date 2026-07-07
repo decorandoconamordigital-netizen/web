@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapa de Puestos</title>
+    <link rel="stylesheet" href="puestos.css">
+</head>
+<body>
+    <div class="container">
+        <a href="../../inicio.html" class="btn-back">⬅ Volver al Panel</a>
+        <h2>Reserva de Puestos</h2>
+
+        <!-- Selector para asignar feriante al puesto seleccionado -->
+        <div id="zona-asignacion" class="hidden">
+            <h3>Asignar puesto <span id="puesto-elegido">X</span></h3>
+            <select id="select-feriante">
+                <option value="">-- Seleccionar Feriante --</option>
+            </select>
+            <button onclick="confirmarAsignacion()">Confirmar Ocupación</button>
+            <button onclick="liberarPuesto()" class="btn-danger">Liberar Puesto</button>
+        </div>
+
+        <!-- Cuadrícula interactiva -->
+        <div class="grid-puestos" id="grid-puestos"></div>
+    </div>
+    <script src="puestos.js"></script>
+</body>
+</html>

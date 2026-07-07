@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Ferias - EUCA Local</title>
+    <style>
+        :root {
+            --bg-sidebar: #1e2229;
+            --bg-main: #f4f6f9;
+            --purple: #7c3aed;
+            --purple-hover: #6d28d9;
+            --text-dark: #333;
+            --green: #10b981;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; background: var(--bg-main); color: var(--text-dark); }
+
+        /* Menú Lateral */
+        #sidebar {
+            width: 260px;
+            background-color: var(--bg-sidebar);
+            color: white;
+            min-height: 100vh;
+            padding: 20px 10px;
+            position: fixed;
+        }
+        .logo-area { padding: 10px 15px; margin-bottom: 20px; }
+        .logo-area h2 { color: var(--green); font-size: 22px; }
+        .menu-btn {
+            display: block;
+width:100%;
+            padding: 12px 15px;
+            color: #a0aec0;
+            text-decoration: none;
+            background: none;
+            border: none;
+            text-align: left;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+        }
+        .menu-btn:hover, .menu-btn.active {
+            background-color: var(--purple);
+            color: white;
+        }
+        .menu-link {
+    text-decoration: none; /* Elimina cualquier subrayado */
+    color: inherit;        /* Hereda los colores del botón */
+    display: block;        /* Hace que todo el bloque sea cliqueable */
+}
+        /* Contenido Principal */
+        #main-content { margin-left: 260px; flex-grow: 1; padding: 40px; min-height: 100vh; }
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+
+        /* Componentes de la Interfaz */
+        .card-link {
+    text-decoration: none; /* Quita el subrayado */
+    color: inherit;        /* Mantiene los colores originales de tu diseño */
+    display: block;
+}
+        h1 { margin-bottom: 20px; font-size: 28px; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .grid-modules { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 20px; }
+        .mod-card { background: white; padding: 20px; border-radius: 10px; border-left: 5px solid var(--purple); cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        
+        /* Formularios y Tablas */
+        .form-group { margin-bottom: 15px; display: flex; flex-direction: column; }
+        label { margin-bottom: 5px; font-weight: 600; }
+        input, select { padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+        button { padding: 10px 20px; background: var(--purple); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        button:hover { background: var(--purple-hover); }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f8fafc; }
+    </style>
+</head>
+<body>
+
+  <!-- Menú Lateral Modificado -->
+<div id="sidebar">
+    <div class="logo-area">
+        <h2>PANEL DE EUCA</h2>
+        <small style="color: #718096;">Viernes 11 De Julio</small>
+    </div>
+    
+    <!-- El Dashboard/Inicio se queda en la raíz -->
+    <a href="index.html" class="menu-link">
+        <button class="menu-btn active">📊 Dashboard</button>
+    </a>
+    
+    <!-- Estos van a buscar el HTML dentro de cada carpeta de módulos -->
+    <a href="modulos/contabilidad/contabilidad.html" class="menu-link">
+        <button class="menu-btn">💰 Contabilidad</button>
+    </a>
+    
+    <a href="modulos/puestos/puestos.html" class="menu-link">
+        <button class="menu-btn">⛺ Puestos</button>
+    </a>
+    
+    <a href="modulos/participantes/participantes.html" class="menu-link">
+        <button class="menu-btn">👥 Participantes</button>
+    </a>
+    
+    <!-- Si creas el de configuración en el futuro, sigues la misma lógica -->
+    <a href="modulos/configuracion/configuracion.html" class="menu-link">
+        <button class="menu-btn">⚙️ Configuración</button>
+    </a>
+</div>
+
+    <!-- Contenido Principal -->
+    <div id="main-content">
+
+        <!-- VISTA: DASHBOARD -->
+        <div id="view-dashboard" class="view-section active">
+            <h1>Dashboard</h1>
+            <div class="card" style="background: linear-gradient(135deg, #10b981, #059669); color: white;">
+                <h3>PRÓXIMA FERIA: EUCA</h3>
+                <p id="dash-fecha-info" style="font-size: 20px; margin: 10px 0; font-weight: bold;">Cargando fecha...</p>
+                <p>Bosques de Eucalipto — Max. <span id="dash-max-puestos">40</span> puestos</p>
+            </div>
+            
+            <!-- Rejilla de Tarjetas (Módulos) en tu index.html principal -->
+<div class="modules-grid">
+    
+    <!-- Tarjeta: Contabilidad -->
+    <a href="modulos/contabilidad/contabilidad.html" class="card-link">
+        <div class="card">
+            <div class="card-icon income">💲</div>
+            <h3>Contabilidad</h3>
+            <p>Ingresos y gastos</p>
+        </div>
+    </a>
+
+    <!-- Tarjeta: Puestos (Mapa) -->
+    <a href="modulos/puestos/puestos.html" class="card-link">
+        <div class="card">
+            <div class="card-icon positions">🧱</div>
+            <h3>Puestos</h3>
+            <p>Mapa visual de puestos</p>
+        </div>
+    </a>
+
+    <!-- Tarjeta: Participantes (Agenda) -->
+    <a href="modulos/participantes/participantes.html" class="card-link">
+        <div class="card">
+            <div class="card-icon people">👥</div>
+            <h3>Participantes</h3>
+            <p>Almacenar datos de feriantes</p>
+        </div>
+    </a>
+
+</div>
+        </div>
+
+        <!-- VISTA: CONTABILIDAD -->
+        <div id="view-contabilidad" class="view-section">
+            <h1>Contabilidad</h1>
+            <div class="card">
+                <h3>Registrar Movimiento</h3>
+                <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
+                    <input type="text" id="caja-concepto" placeholder="Concepto (Ej: Pago Puesto)">
+                    <input type="number" id="caja-monto" placeholder="Monto ($)">
+                    <select id="caja-tipo">
+                        <option value="Ingreso">Ingreso</option>
+                        <option value="Gasto">Gasto</option>
+                    </select>
+                    <button onclick="agregarMovimiento()">Agregar</button>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Historial de Caja</h3>
+                <table>
+                    <thead>
+                        <tr><th>Concepto</th><th>Tipo</th><th>Monto</th></tr>
+                    </thead>
+                    <tbody id="tabla-contabilidad"><!-- Dinámico --></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- VISTA: PUESTOS -->
+        <div id="view-puestos" class="view-section">
+            <h1>Mapa de Puestos</h1>
+            <div class="card">
+                <h3>Asignar Puesto Visual</h3>
+                <p>Aquí puedes ver el estado actual configurado.</p>
+                <div style="margin-top: 20px; padding: 20px; background: #e2e8f0; text-align: center; border-radius: 8px; font-weight: bold;">
+                    Total de puestos habilitados para esta edición: <span id="puestos-mapa-count">40</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA: PARTICIPANTES -->
+        <div id="view-participantes" class="view-section">
+            <h1>Participantes</h1>
+            <div class="card">
+                <h3>Inscribir Feriante</h3>
+                <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
+                    <input type="text" id="part-nombre" placeholder="Nombre completo">
+                    <input type="text" id="part-rubro" placeholder="Rubro (Artesanías, Comida...)">
+                    <button onclick="agregarParticipante()">Inscribir</button>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Lista de Feriantes</h3>
+                <table>
+                    <thead>
+                        <tr><th>Nombre</th><th>Rubro</th></tr>
+                    </thead>
+                    <tbody id="tabla-participantes"><!-- Dinámico --></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- VISTA: CONFIGURACIÓN -->
+        <div id="view-configuracion" class="view-section">
+            <h1>Configuración General</h1>
+            <div class="card">
+                <h3>Ajustes de la Feria</h3>
+                <div class="form-group">
+                    <label>Fecha del Evento:</label>
+                    <input type="text" id="config-fecha" value="Viernes 11 De Julio">
+                </div>
+                <div class="form-group">
+                    <label>Máximo de Puestos:</label>
+                    <input type="number" id="config-puestos" value="40">
+                </div>
+                <button onclick="guardarConfiguracion()">Guardar Ajustes</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- LÓGICA DEL SISTEMA (JAVASCRIPT) -->
+    <script>
+        // --- 1. ENRUTADOR (Navegación entre pestañas) ---
+        function switchView(viewId) {
+            // Desactivar todas las vistas y botones del menú
+            document.querySelectorAll('.view-section').forEach(view => view.classList.remove('active'));
+            document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Activar la vista seleccionada
+            document.getElementById(`view-${viewId}`).classList.add('active');
+            
+            // Buscar y activar el botón del menú correspondiente
+            const botones = Array.from(document.querySelectorAll('.menu-btn'));
+            const botonActivo = botones.find(b => b.getAttribute('onclick').includes(viewId));
+            if(botonActivo) botonActivo.classList.add('active');
+        }
+
+        // --- 2. BASE DE DATOS LOCAL (Carga Inicial) ---
+        document.addEventListener("DOMContentLoaded", () => {
+            inicializarConfig();
+            renderContabilidad();
+            renderParticipantes();
+        });
+
+        // --- 3. MÓDULO: CONFIGURACIÓN ---
+        function inicializarConfig() {
+            const fecha = localStorage.getItem("feria_fecha") || "Viernes 11 De Julio";
+            const puestos = localStorage.getItem("feria_puestos") || "40";
+
+            // Rellenar inputs de configuración
+            document.getElementById("config-fecha").value = fecha;
+            document.getElementById("config-puestos").value = puestos;
+
+            // Rellenar datos en el Dashboard y otros módulos
+            document.getElementById("dash-fecha-info").innerText = fecha;
+            document.getElementById("dash-max-puestos").innerText = puestos;
+            document.getElementById("puestos-mapa-count").innerText = puestos;
+        }
+
+        function guardarConfiguracion() {
+            const fecha = document.getElementById("config-fecha").value;
+            const puestos = document.getElementById("config-puestos").value;
+
+            localStorage.setItem("feria_fecha", fecha);
+            localStorage.setItem("feria_puestos", puestos);
+
+            inicializarConfig(); // Recargar datos en la UI
+            alert("⚙️ Configuración actualizada correctamente.");
+            switchView('dashboard');
+        }
+
+        // --- 4. MÓDULO: CONTABILIDAD ---
+        function agregarMovimiento() {
+            const concepto = document.getElementById("caja-concepto").value;
+            const monto = document.getElementById("caja-monto").value;
+            const tipo = document.getElementById("caja-tipo").value;
+
+            if(!concepto || !monto) return alert("Por favor completa los campos de caja.");
+
+            let historial = JSON.parse(localStorage.getItem("feria_caja")) || [];
+            historial.push({ concepto, monto, tipo });
+            
+            localStorage.setItem("feria_caja", JSON.stringify(historial));
+            
+            // Limpiar inputs y redibujar
+            document.getElementById("caja-concepto").value = "";
+            document.getElementById("caja-monto").value = "";
+            renderContabilidad();
+        }
+
+        function renderContabilidad() {
+            const historial = JSON.parse(localStorage.getItem("feria_caja")) || [];
+            const tabla = document.getElementById("tabla-contabilidad");
+            tabla.innerHTML = "";
+
+            historial.forEach(mov => {
+                const color = mov.tipo === "Ingreso" ? "green" : "red";
+                tabla.innerHTML += `<tr>
+                    <td>${mov.concepto}</td>
+                    <td style="color: ${color}; font-weight: bold;">${mov.tipo}</td>
+                    <td>$${mov.monto}</td>
+                </tr>`;
+            });
+        }
+
+        // --- 5. MÓDULO: PARTICIPANTES ---
+        function agregarParticipante() {
+            const nombre = document.getElementById("part-nombre").value;
+            const rubro = document.getElementById("part-rubro").value;
+
+            if(!nombre || !rubro) return alert("Por favor completa los datos del feriante.");
+
+            let participantes = JSON.parse(localStorage.getItem("feria_participantes")) || [];
+            participantes.push({ nombre, rubro });
+
+            localStorage.setItem("feria_participantes", JSON.stringify(participantes));
+
+            document.getElementById("part-nombre").value = "";
+            document.getElementById("part-rubro").value = "";
+            renderParticipantes();
+        }
+
+        function renderParticipantes() {
+            const participantes = JSON.parse(localStorage.getItem("feria_participantes")) || [];
+            const tabla = document.getElementById("tabla-participantes");
+            tabla.innerHTML = "";
+
+            participantes.forEach(p => {
+                tabla.innerHTML += `<tr>
+                    <td>${p.nombre}</td>
+                    <td>${p.rubro}</td>
+                </tr>`;
+            });
+        }
+    </script>
+</body>
+</html>

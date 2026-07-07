@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Feriantes</title>
+    <link rel="stylesheet" href="participantes.css">
+</head>
+<body>
+    <div class="container">
+        <a href="../../inicio.html" class="btn-back">⬅ Volver al Panel</a>
+        <h2>Alta de Feriantes</h2>
+        
+        <form id="form-feriante">
+            <input type="text" id="nombre" placeholder="Nombre completo" required>
+            <input type="text" id="rubro" placeholder="Rubro (ej. Artesanías, Gastronomía)" required>
+            <input type="tel" id="telefono" placeholder="Teléfono">
+            <button type="submit">Guardar Feriante</button>
+        </form>
+
+        <h3>Lista de Feriantes Registrados</h3>
+        <ul id="lista-feriantes"></ul>
+    </div>
+    <script src="participantes.js"></script>
+</body>
+</html>
