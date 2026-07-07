@@ -32,6 +32,7 @@
           <p class="eyebrow">Panel administrativo</p>
           <h1 id="page-title">Dashboard</h1>
         </div>
+        <div class="topbar__actions"><label class="fair-switcher">Feria<select id="fair-selector"><option value="euca">EUCA</option><option value="plate">PLATE</option></select></label><div class="status-pill" id="save-status">● Guardado local</div></div>
         <div class="status-pill" id="save-status">● Guardado local</div>
       </header>
 
@@ -83,6 +84,10 @@
             <label>Teléfono<input id="participant-phone" type="tel" maxlength="30"></label>
             <label>Email<input id="participant-email" type="email" maxlength="80"></label>
             <label>Estado<select id="participant-status"><option value="activo">Activo</option><option value="pendiente">Pendiente</option><option value="inactivo">Inactivo</option></select></label>
+
+            <label>Pago inicial<input id="participant-payment-amount" type="number" min="0" step="0.01" placeholder="Opcional"></label>
+            <label>Método de pago<select id="participant-payment-method"><option value="efectivo">Efectivo</option><option value="transferencia">Transferencia</option><option value="mercado-pago">Mercado Pago</option><option value="otro">Otro</option></select></label>
+
             <button class="btn" type="submit">Guardar participante</button>
           </form>
         </article>
@@ -90,11 +95,11 @@
       </section>
 
       <section id="view-puestos" class="view">
-        <div class="grid two"><article class="card"><h3>Asignación de puestos</h3><p>Selecciona un puesto del mapa y asígnalo a un participante activo.</p><div class="legend"><span><i class="free"></i>Libre</span><span><i class="busy"></i>Ocupado</span><span><i class="selected"></i>Seleccionado</span></div><div id="stall-map" class="stall-map"></div></article><article class="card"><h3 id="stall-panel-title">Selecciona un puesto</h3><form id="stall-form" class="stack"><label>Puesto<input id="stall-number" type="text" readonly></label><label>Participante<select id="stall-participant"></select></label><label>Notas<textarea id="stall-notes" rows="4" placeholder="Observaciones del puesto"></textarea></label><button class="btn" type="submit">Guardar asignación</button><button class="btn btn-danger" type="button" id="release-stall">Liberar puesto</button></form></article></div>
+        <div class="grid two"><article class="card"><h3>Asignación de puestos</h3><p>Selecciona un puesto del mapa y asígnalo a un participante activo. Si marcas el puesto como pagado, Contabilidad se completa automáticamente.</p><div class="legend"><span><i class="free"></i>Libre</span><span><i class="busy"></i>Ocupado</span><span><i class="selected"></i>Seleccionado</span></div><div id="stall-map" class="stall-map"></div></article><article class="card"><h3 id="stall-panel-title">Selecciona un puesto</h3><form id="stall-form" class="stack"><label>Puesto<input id="stall-number" type="text" readonly></label><label>Participante<select id="stall-participant"></select></label><label>Estado de pago<select id="stall-payment-status"><option value="pendiente">Pendiente</option><option value="pagado">Pagado</option></select></label><label>Monto pagado<input id="stall-payment-amount" type="number" min="0" step="0.01"></label><label>Método de pago<select id="stall-payment-method"><option value="efectivo">Efectivo</option><option value="transferencia">Transferencia</option><option value="mercado-pago">Mercado Pago</option><option value="otro">Otro</option></select></label><label>Notas<textarea id="stall-notes" rows="4" placeholder="Observaciones del puesto"></textarea></label><button class="btn" type="submit">Guardar asignación</button><button class="btn btn-danger" type="button" id="release-stall">Liberar puesto</button></form></article></div>
       </section>
 
       <section id="view-configuracion" class="view">
-        <div class="grid two"><article class="card"><h3>Datos de la feria</h3><form id="settings-form" class="stack"><label>Nombre del evento<input id="setting-event-name" type="text" required></label><label>Fecha<input id="setting-event-date" type="date" required></label><label>Ubicación<input id="setting-location" type="text" required></label><label>Cantidad de puestos<input id="setting-stalls" type="number" min="1" max="200" required></label><button class="btn" type="submit">Guardar configuración</button></form></article><article class="card"><h3>Respaldo JSON</h3><p>Exporta o importa todos los datos del Panel EUCA.</p><div class="actions"><button class="btn" id="export-backup">Exportar respaldo</button><label class="btn btn-ghost file-btn">Importar respaldo<input id="import-backup" type="file" accept="application/json,.json"></label><button class="btn btn-danger" id="reset-data">Reiniciar datos</button></div><pre id="backup-preview" class="backup-preview" aria-live="polite"></pre></article></div>
+        <div class="grid two"><article class="card"><h3>Datos de la feria</h3><form id="settings-form" class="stack"><label>Nombre del evento<input id="setting-event-name" type="text" required></label><label>Fecha<input id="setting-event-date" type="date" required></label><label>Ubicación<input id="setting-location" type="text" required></label><label>Cantidad de puestos<input id="setting-stalls" type="number" min="1" max="200" required></label><label>Precio por puesto<input id="setting-stall-price" type="number" min="0" step="0.01" required></label><button class="btn" type="submit">Guardar configuración</button></form></article><article class="card"><h3>Respaldo JSON</h3><p>Exporta o importa todos los datos del Panel EUCA.</p><div class="actions"><button class="btn" id="export-backup">Exportar respaldo</button><label class="btn btn-ghost file-btn">Importar respaldo<input id="import-backup" type="file" accept="application/json,.json"></label><button class="btn btn-danger" id="reset-data">Reiniciar datos</button></div><pre id="backup-preview" class="backup-preview" aria-live="polite"></pre></article></div>
       </section>
     </main>
   </div>
