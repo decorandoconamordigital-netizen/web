@@ -33,6 +33,7 @@
           <h1 id="page-title">Dashboard</h1>
         </div>
         <div class="topbar__actions"><label class="fair-switcher">Feria<select id="fair-selector"><option value="euca">EUCA</option><option value="plate">PLATE</option></select></label><div class="status-pill" id="save-status">● Guardado local</div></div>
+        <div class="status-pill" id="save-status">● Guardado local</div>
       </header>
 
       <section id="view-dashboard" class="view active" aria-labelledby="page-title">
@@ -83,8 +84,10 @@
             <label>Teléfono<input id="participant-phone" type="tel" maxlength="30"></label>
             <label>Email<input id="participant-email" type="email" maxlength="80"></label>
             <label>Estado<select id="participant-status"><option value="activo">Activo</option><option value="pendiente">Pendiente</option><option value="inactivo">Inactivo</option></select></label>
+
             <label>Pago inicial<input id="participant-payment-amount" type="number" min="0" step="0.01" placeholder="Opcional"></label>
             <label>Método de pago<select id="participant-payment-method"><option value="efectivo">Efectivo</option><option value="transferencia">Transferencia</option><option value="mercado-pago">Mercado Pago</option><option value="otro">Otro</option></select></label>
+
             <button class="btn" type="submit">Guardar participante</button>
           </form>
         </article>
